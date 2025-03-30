@@ -34,6 +34,18 @@
                 ],
                 respostaCorreta: 'C'
             },
+            {
+                pergunta: "4 - Deus é fiel",
+                opcoes: [
+                    "A) ",
+                    "B) ",
+                    "C) ",
+                    "D) ",
+                    "E) "
+                    
+                ],
+                respostaCorreta: ''
+            },     
             // Adicione mais questões aqui
         ];
 
