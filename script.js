@@ -1,7 +1,7 @@
 
         const questoes = [
             {
-                pergunta: "1 - O COBIT 2019 é um framework que ajuda as organizações a alcançar seus objetivos estratégicos. Nesse contexto, é correto afirmar que:",
+                pergunta: "<b>1 - O COBIT 2019 é um framework que ajuda as organizações a alcançar seus objetivos estratégicos. Nesse contexto, é correto afirmar que:",
                 opcoes: [
                     "A) O COBIT 2019 incorpora o conceito de princípios e práticas ágeis, alinhando-se às demandas do mercado.",
                     "B) O ciclo de vida de implementação do COBIT foi removido na versão 2019 para simplificar o framework.",
