@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="CSS/style_pag_inicial.css">
+    <title>Questões TI</title>
+    
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="#">Questões de TI</a>
+        </div>
+        <nav>
+            <div class="menu-toggle">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <ul>
+                <li><a href="#">Sobre</a></li>
+                <li><a href="pag_questoes.html">Questões</a></li>
+                <li><a href="#">Aprenda jogando</a></li>
+                <li><a href="pag_simulado1.html">Simulados</a></li>
+                
+            </ul>
+        </nav>
+    </header>
+
+    <div class="main-content">
+        <h1>A sua plataforma de estudos para concursos de TI</h1>
+        
+    </div>
+    <div class="apresentacao">
+
+        <p >Bem-vindo(a) à sua plataforma definitiva de estudos para concursos na área de Tecnologia da Informação! Sabemos o quão desafiadora pode ser a jornada de preparação, e é por isso que desenvolvemos esse ambiente de aprendizado. Aqui, você encontrará um acervo de questões de múltipla, abrangendo os principais temas cobrados nos concursos de TI.Prepare-se para alcançar a sua aprovação! Nossa plataforma vai além das tradicionais listas de exercícios, oferecendo jogos educativos que reforçam o aprendizado de maneira memorável. Com desafios divertidos e feedbacks, você poderá testar seus conhecimentos, identificar seus pontos fortes e áreas que precisam de mais atenção. Comece a explorar nosso conteúdo utilizando o menu superior. Bons estudos!</p>
+
+    </div>
+            
+    
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navUl = document.querySelector('nav ul');
+
+        menuToggle.addEventListener('click', () => {
+            navUl.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
