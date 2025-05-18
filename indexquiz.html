@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Simples</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<style>
+body {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+    margin: 0;
+}
+
+.quiz-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#question-container {
+    margin-bottom: 30px;
+}
+
+#question {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+#answer-buttons {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.answer-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.answer-btn:hover {
+    background-color: #0056b3;
+}
+
+.correct {
+    background-color: #28a745;
+}
+
+.incorrect {
+    background-color: #dc3545;
+}
+
+.next-btn, #restart-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+</style>
+<body>
+    <div class="quiz-container">
+        <h1>Quiz</h1>
+        <div id="question-container">
+            <p id="question"></p>
+            <ul id="answer-buttons">
+                <li><button class="answer-btn">A</button></li>
+                <li><button class="answer-btn">B</button></li>
+                <li><button class="answer-btn">C</button></li>
+                <li><button class="answer-btn">D</button></li>
+            </ul>
+        </div>
+        <div id="results-container" class="hidden">
+            <h2>Resultado!</h2>
+            <p id="score"></p>
+            <button id="restart-btn">Recomeçar</button>
+        </div>
+        <button id="next-btn" class="next-btn hidden">Próxima Pergunta</button>
+    </div>
+    <script >
+const questionElement = document.getElementById('question');
+const answerButtonsElement = document.getElementById('answer-buttons');
+const nextButton = document.getElementById('next-btn');
+const resultsContainer = document.getElementById('results-container');
+const scoreElement = document.getElementById('score');
+const restartButton = document.getElementById('restart-btn');
+
+let currentQuestionIndex = 0;
+let score = 0;
+let questions = [];
+
+function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.classList.add('hidden');
+    resultsContainer.classList.add('hidden');
+    questionElement.classList.remove('hidden');
+    answerButtonsElement.classList.remove('hidden');
+    setNextQuestion();
+}
+
+function setNextQuestion() {
+    resetState();
+    showQuestion(questions[currentQuestionIndex]);
+}
+
+function showQuestion(question) {
+    questionElement.innerText = question.question;
+    question.answers.forEach(answer => {
+        const button = document.createElement('button');
+        button.innerText = answer.text;
+        button.classList.add('answer-btn');
+        if (answer.correct) {
+            button.dataset.correct = answer.correct;
+        }
+        button.addEventListener('click', selectAnswer);
+        answerButtonsElement.appendChild(button);
+    });
+}
+
+function resetState() {
+    clearStatusClass(document.body);
+    while (answerButtonsElement.firstChild) {
+        answerButtonsElement.removeChild(answerButtonsElement.firstChild);
+    }
+}
+
+function selectAnswer(e) {
+    const selectedButton = e.target;
+    const correct = selectedButton.dataset.correct;
+    setStatusClass(document.body, correct);
+    Array.from(answerButtonsElement.children).forEach(button => {
+        setStatusClass(button, button.dataset.correct);
+        button.disabled = true;
+    });
+    if (questions.length > currentQuestionIndex + 1) {
+        nextButton.classList.remove('hidden');
+    } else {
+        showResults();
+    }
+}
+
+function setStatusClass(element, correct) {
+    clearStatusClass(element);
+    if (correct) {
+        element.classList.add('correct');
+        score++;
+    } else {
+        element.classList.add('incorrect');
+    }
+}
+
+function clearStatusClass(element) {
+    element.classList.remove('correct');
+    element.classList.remove('incorrect');
+}
+
+function nextQuestion() {
+    currentQuestionIndex++;
+    setNextQuestion();
+}
+
+function showResults() {
+    questionElement.classList.add('hidden');
+    answerButtonsElement.classList.add('hidden');
+    nextButton.classList.add('hidden');
+    resultsContainer.classList.remove('hidden');
+    scoreElement.innerText = `Você acertou ${score} de ${questions.length} perguntas!`;
+}
+
+function restartQuiz() {
+    resultsContainer.classList.add('hidden');
+    startQuiz();
+}
+
+// Defina suas perguntas aqui
+questions = [
+    {
+        question: 'Qual a capital do Brasil?',
+        answers: [
+            { text: 'Rio de Janeiro', correct: false },
+            { text: 'São Paulo', correct: false },
+            { text: 'Brasília', correct: true },
+            { text: 'Salvador', correct: false }
+        ]
+    },
+    {
+        question: 'Qual a cor do céu em um dia claro?',
+        answers: [
+            { text: 'Verde', correct: false },
+            { text: 'Azul', correct: true },
+            { text: 'Amarelo', correct: false },
+            { text: 'Vermelho', correct: false }
+        ]
+    },
+    {
+        question: 'Quanto é 2 + 2?',
+        answers: [
+            { text: '3', correct: false },
+            { text: '4', correct: true },
+            { text: '5', correct: false },
+            { text: '6', correct: false }
+        ]
+    }
+    // Adicione mais perguntas aqui!
+];
+
+nextButton.addEventListener('click', nextQuestion);
+restartButton.addEventListener('click', restartQuiz);
+
+// Inicia o quiz quando a página carrega
+startQuiz();
+</script>
+</body>
+</html>
