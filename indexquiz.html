@@ -51,35 +51,62 @@ h1 {
 }
 
 .answer-btn {
-    background-color: #007bff;
+    background-color: white; /* Cor de fundo branca padrão */
+    color: #333; /* Cor do texto */
+    border: 1px solid #ccc; /* Adiciona uma borda sutil */
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Adiciona transição para suavizar a mudança */
+}
+
+.answer-btn:hover {
+    background-color: #eee; /* Um leve hover para indicar interatividade */
+}
+
+.answer-btn:disabled {
+    cursor: not-allowed; /* Indica que o botão não pode ser clicado */
+}
+
+.correct {
+    background-color: #28a745 !important; /* Verde para a resposta correta */
+    color: white !important;
+}
+
+.incorrect {
+    /* Podemos remover a cor vermelha aqui, já que só queremos destacar a correta */
+}
+
+.next-btn, #restart-btn {
+    background-color: #007bff; /* Mantém a cor azul para os botões de navegação */
     color: white;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 1em;
+    margin-top: 20px;
     transition: background-color 0.3s ease;
 }
 
-.answer-btn:hover {
+.next-btn:hover, #restart-btn:hover {
     background-color: #0056b3;
 }
 
-.correct {
-    background-color: #28a745;
+.hidden {
+    display: none !important;
 }
 
-.incorrect {
-    background-color: #dc3545;
+#results-container {
+    margin-top: 30px;
 }
 
-.next-btn, #restart-btn {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
+#score {
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 15px;
+}
 </style>
 <body>
     <div class="quiz-container">
@@ -98,7 +125,7 @@ h1 {
             <p id="score"></p>
             <button id="restart-btn">Recomeçar</button>
         </div>
-        <button id="next-btn" class="next-btn hidden">Próxima Pergunta</button>
+        <button id="next-btn" class="next-btn hidden">Seguinte</button>
     </div>
     <script >
 const questionElement = document.getElementById('question');
@@ -142,7 +169,6 @@ function showQuestion(question) {
 }
 
 function resetState() {
-    clearStatusClass(document.body);
     while (answerButtonsElement.firstChild) {
         answerButtonsElement.removeChild(answerButtonsElement.firstChild);
     }
@@ -151,31 +177,24 @@ function resetState() {
 function selectAnswer(e) {
     const selectedButton = e.target;
     const correct = selectedButton.dataset.correct;
-    setStatusClass(document.body, correct);
+
     Array.from(answerButtonsElement.children).forEach(button => {
-        setStatusClass(button, button.dataset.correct);
-        button.disabled = true;
+        button.disabled = true; // Desabilita todos os botões após a seleção
+        if (button.dataset.correct) {
+            button.classList.add('correct'); // Aplica a classe 'correct' apenas à resposta certa
+        }
+        // Remove a parte que aplicava 'incorrect' aos outros botões
     });
+
+    if (correct) {
+        score++;
+    }
+
     if (questions.length > currentQuestionIndex + 1) {
         nextButton.classList.remove('hidden');
     } else {
         showResults();
     }
-}
-
-function setStatusClass(element, correct) {
-    clearStatusClass(element);
-    if (correct) {
-        element.classList.add('correct');
-        score++;
-    } else {
-        element.classList.add('incorrect');
-    }
-}
-
-function clearStatusClass(element) {
-    element.classList.remove('correct');
-    element.classList.remove('incorrect');
 }
 
 function nextQuestion() {
